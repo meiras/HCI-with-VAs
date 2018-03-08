@@ -98,10 +98,15 @@ bottom_nodes, top_nodes = bipartite.sets(B)
 
 
 ```python
-# Include first pass of the code you are thinking of using to construct your agents
-# This may be a set of "turtle-own" variables and a command in the "setup" procedure, a list, an array, or Class constructor
-# Feel free to include any agent methods/procedures you have so far. Filling in with pseudocode is ok! 
-# NOTE: If using Netlogo, remove "python" from the markdown at the top of this section to get a generic code block
+# Create agents for people. Number is not important, maybe 10 to allow some variablity
+# Create agents for conversational interfaces/virtual assistants. Have a few different types: personal virtual assistant at #home, personal virtual assistant on the go, bank virtual assistant, customer service virtual assistant, therapy virtual #assistant.
+# People agents (perceivers) have properties of expectations per virtual assistant (target).
+# Edges ties perceivers to targets. In one tick, perceiver will interact with its connections/targets a certain number of times dependings on the frequency set. For example, in one tick,the assisatn may interact with a personal virtual assistant three times and a bank assistant once. There might be a probaility in a tick that it interacts with a customer support assistant.
+# Model will also allow for added level of performance variables owned by target agents for each perceiver agent. 
+# Expectations may take the form of a set of dummy variables. Performance variables are from the same set of dummy variables.
+# For example, if perceiver 1 expects D, E, F from target 1, and target 1 performs D, E, F, then the resultis 100% #expectations met.
+# An extra level in the model may be a change in interaction if the weights continue to decrease or maintain 100% for a long enough time. These parameters have not been defined yet. Basically, if the interactions meet a threshold of failure conistently and the expectations do not adequately change to accomodate performance, then the perceiver may interact less with the target.
+
 ```
 
 
@@ -115,6 +120,7 @@ bottom_nodes, top_nodes = bipartite.sets(B)
 _Description of the topology of who interacts with whom in the system. Perfectly mixed? Spatial proximity? Along a network? CA neighborhood?_
 
 Each perceiver will interact with one or more targets. The variety in nunmber of targets per perceiver is intentional to allow for variablity in expectation adjustment. Targets may interact with one or more perceivers. 
+They will connect along a network. The edges will already formed in setup.
 
  
 **_Action Sequence_**
