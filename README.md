@@ -1,5 +1,8 @@
 # HCI-with-VAs (in progress)
 
+__*LS COMMENTS:*__
+*I opted to go ahead and get folks comments sooner rather than later on this given the timeline for our final project. If you have any questions or concerns, let me know!*
+
 # Model Proposal for Human Interaction with Virtual Assistants
 
 Meira Chefitz
@@ -52,7 +55,10 @@ Notes:
 * _List of environment-owned variables (e.g. resources, states, roughness)_[location, but only for visualization]
 * _List of environment-owned methods/procedures (e.g. resource production, state change, etc.)_none
 
-  
+__*LS COMMENTS:*__
+*I'd probably go ahead and file this part of the model under "topology" rather than environment. Good description and conceptualization, however.*
+
+
 ```python
 # NetworkX will be used in Python per Sayama's Random Walk on a Network
 
@@ -83,6 +89,9 @@ bottom_nodes, top_nodes = bipartite.sets(B)
 # NOTE: If using Netlogo, remove "python" from the markdown at the top of this section to get a generic code block
 ```
 
+__*LS COMMENTS:*__
+*This is a solid start. Currently, your network is not very big - are you thinking of expanding it later? Also, I'm assuming that the letters represent the computer interfaces. Is that correct?*
+
 &nbsp; 
 
 ### 2) Agents
@@ -109,6 +118,8 @@ bottom_nodes, top_nodes = bipartite.sets(B)
 
 ```
 
+__*LS COMMENTS:*__
+*I can see the beginnings of how you might be thinking of implementing this model here, but need a lot more specificity and nitty gritty of how you think the code is going to look at this point. There are a lot of ways to operationalize learning and adaptation, but even beginning with something very simple would be a great place to start from. So for example, thinking through precisely how the agent changes its expectations when the previous interaction result is less than 100% and demonstrating how you will execute that through code is what is needed right here.
 
 
 &nbsp; 
@@ -132,6 +143,10 @@ _What does an agent, cell, etc. do on a given turn? Provide a step-by-step descr
 2. The target performs.
 3. The perceiver adjusts expectations, storing the new expectation.
 
+__*LS COMMENTS:*__
+*See previous comment about needing to translate this into actual steps that are being carried out through lines of code. This is a good start, but at this point you'll be needing to move from your conceptual implementation (what is expressed here) to an actual computational implementation.
+
+
 &nbsp; 
 ### 4) Model Parameters and Initialization
 
@@ -144,6 +159,10 @@ For each perceiver in network, interact with a target. Go through 1:1 interactio
 _Provide a high level, step-by-step description of your schedule during each "tick" of the model_
 (Rewrite above)
 
+__*LS COMMENTS:*__
+*Not sure I would classify the above as global parameters. A global parameter might instead be something like "learning rate," "failure tolerance," or "number of interfaces interacted with"
+
+*In terms of initialization, I would think about this specifically with regard to the expectation sets agents begin with/
 &nbsp; 
 
 ### 5) Assessment and Outcome Measures
@@ -158,4 +177,10 @@ The extent to which expectations have changed and in what directoin or if they r
 _What parameters are you most interested in sweeping through? What value ranges do you expect to look at for your analysis?_
 Expectations and performance
 
+__*LS Comments:*__
+*Need more clarification on what you mean here. Do you mean expectation set size? Other things to consider are average network degree and learning rate as well.
+
 Note: it would be really cool to do this with edges that reflected the extent to which expectations were met as it can become a factor in predicting future interactions.
+
+__*LS COMMENTS:*__
+*I agree that making the network adaptive in the sense that tie weight adjusts depending on performance would be cool. Hope you are able to get to it!*
