@@ -168,7 +168,7 @@ __*LS COMMENTS:*__
 ### 5) Assessment and Outcome Measures
 
 _What quantitative metrics and/or qualitative features will you use to assess your model outcomes?_
-The extent to which expectations have changed and in what directoin or if they remained the same.
+The extent to which expectations have changed and in what directoin or if they remained the same. 
 
 &nbsp; 
 
@@ -180,7 +180,9 @@ Expectations and performance
 __*LS Comments:*__
 *Need more clarification on what you mean here. Do you mean expectation set size? Other things to consider are average network degree and learning rate as well.
 
-Note: it would be really cool to do this with edges that reflected the extent to which expectations were met as it can become a factor in predicting future interactions.
+Notes: 
+1. it would be really cool to do this with edges that reflected the extent to which expectations were met as it can become a factor in predicting future interactions.
+2. Expectations are adjusted using interpretations of human learning. I am still working on which model is more appropriate based on the options in I'm Game (Abrahamson, Wilensky, and Levin 2007).
 
 __*LS COMMENTS:*__
 *I agree that making the network adaptive in the sense that tie weight adjusts depending on performance would be cool. Hope you are able to get to it!*
