@@ -1,0 +1,49 @@
+
+import pylab as PL
+import random as RD
+import scipy as SP
+import numpy as np #this might be useful for moving right and left numpy.rot90
+
+
+RD.seed()
+
+width = 50
+height = 50
+#initProb = 0.0004
+
+#might help with orientation to define
+
+def init():
+    global time, config, nextConfig, x, y, state, ant_orientation 
+
+    time = 0
+    
+    config = SP.zeros([height, width])
+ #   config = SP.ones([height, width])
+
+
+    nextConfig = SP.zeros([height, width])
+ #   nextConfig = SP.ones([height, width])
+    
+    x = 25 #ant col
+    y = 25 #ant row
+  
+    
+ #   state = config[y, x]
+ 
+ 
+
+    ant_orientation = 'north'
+    
+def draw():
+    PL.cla()
+    PL.pcolor(config, vmin = 0, vmax = 1, cmap = PL.cm.binary)
+    PL.axis('image')
+    PL.title('t = ' + str(time))
+    
+    
+    
+def step():
+    global time, config, nextConfig, x, y, ant_orientation, next_orient
+
+    time += 1
