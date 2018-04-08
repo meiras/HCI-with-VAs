@@ -1,0 +1,113 @@
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Apr  7 22:15:05 2018
+
+@author: meira
+"""
+
+
+#%matplotlib inline 
+#taken from assignment
+
+import networkx as nx
+import numpy
+import matplotlib.pyplot as plt
+
+from networkx.algorithms import bipartite
+
+#import matplotlib
+#matplotlib.use('TkAgg')
+
+import pylab as PL
+import random as RD
+
+
+
+RD.seed()
+
+PoorVAProb = 0.2 #probability that VA severely underperforms
+
+
+#col = {0:'w', 1:'k'} --  consider a property for perceivers only that illustrates level of expectations met
+
+B = nx.Graph()  #nx path graph?
+#B.pos = nx.spring_layout(B)
+B.add_nodes_from([1,2,3], bipartite=0) #perceivers, top nodes
+# Add the node attribute "bipartite" - Targets = 1
+B.add_nodes_from(['a','b','c'], bipartite=1)
+B.add_edges_from([(1,'a'), (2,'b'), (3,'c')])
+
+perceivers = {n for n, d in B.nodes(data=True) if d['bipartite']==0} # perceivers top
+targets = set(B) - perceivers
+
+B.node['a']['VA.type'] = 'personal assistant'
+B.node['b']['VA.type'] = 'personal assistant'
+B.node['c']['VA.type'] = 'personal assistant'
+
+B.node[1]['expectation.1'] = 1
+B.node[2]['expectation.1'] = 1 
+B.node[3]['expectation.1'] = 1
+
+
+B.node['a']['performance.1'] = 0
+B.node['b']['performance.1'] = 0
+B.node['c']['performance.1'] = 0
+
+def init():
+    global B, nextB # I might need to initialize all of the above??? But how does it cycle through?
+    
+    time = 0
+    
+    B = nx.Graph() 
+    for i in B.nodes():
+        #set performance randomly to .7 or .3. there is nothing meaningful to this implementation
+        B.node[i]['performance.1'] = .7 if random() < .5 else .3
+    
+    nextB = B.copy()
+    
+##not sure if this is the issue, but graph won't draw. basic goal: have some color coding to show that the value of attribute is changing
+def draw():
+    PL.cla()
+    #nx.draw(B, pos, node_color=range(24), node_size=600, cmap=plt.cm.Reds) #, pos = positions, edge_color = [col[network.node[n]['state']] for n in network.nodes()])
+
+    #FIXME commeented out below but kept because "positions may be overloaded"
+    # nx.draw(B) #, pos = positions, edge_color = [col[network.node[n]['state']] for n in network.nodes()])
+    nx.draw(B, vmin = 0, vmax = 1, 
+            node_color = [B.nodes[i]['expectation'] for i in B.nodes], 
+            cmap=plt.cm.Reds, 
+            pos = B.pos)
+    PL.axis('image')
+    PL.title('t = ' + str(time))
+ 
+def step():
+    global time, B, nextB
+
+    time += 1
+
+ #this code assumes constant performance and also assumes constant interaction
+     #for all nodes (later logic assumes 'target' nodes), for all neighbors of that node
+    for i in B.nodes(): 
+        for j in B.neighbors(i):
+            #if performance is in the range it should be in (0-1)
+            if (((B.node[i]['performance.1']) >= 0) and ((B.node[i]['performance.1']<=1 ))):
+            #if the target's performance is what perceiver expected, keep expectation as-is
+                if B.node[i]['performance.1'] == B.node[j]['expectation.1'] :
+                    nextB.node[j]['expectation.1'] = B.node[j]['expectation.1'] # nextB.node[i]['state'] = 100 #FIXME placeholder value
+                #if performance exceeds expectations, make the perceiver expect that performance the next time round
+                if not ((B.node[i]['performance.1']) - (B.node[j]['expectation.1'])) <= 0: #if the difference is that performance is greater, keep expectation to simplify
+                    nextB.node[j]['expectation.1'] = B.node[i]['performance.1']
+                #if target performance does not meet perceiver's expectation, bring expectation down but making it incrementally greater than the performance
+                if ((B.node[i]['performance.1'])-(B.node[j]['expectation.1'])) < 0 : #if the difference is that expectation is greater, bring expectation down
+                    nextB.node[j]['expectation.1'] = B.node[i]['performance.1']+.2 #take the expectation down by bringing it closer to performance --arbitrary method
+            #if RD.random() < PoorVAProb:
+              #  nextB.node[i]['expectation.1'] = .5 #reset some 
+                       # break
+            else: # adaptive link cutting behavior
+                nextB.node[i]['performance.1'] = 0
+                
+    del B
+    B = nextB.copy()
+
+import pycxsimulator
+pycxsimulator.GUI().start(func=[init,draw,step])
